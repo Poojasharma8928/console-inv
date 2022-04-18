@@ -9,6 +9,12 @@ CREATE TABLE [Product] (
 )
 GO
 
+ALTER TABLE Product 
+ADD Reorder_Level INT ;
+
+--Insert into Product([Reorder_Level])
+--Values (10 ), (10) ,(10) , (10), (10) ,(10) , (10) , (10), (10 ), (10) ,(10) , (10), (10) ,(10) , (10) , (10), (10) , (10) , (10) , (10);
+
 SELECT * FROM Product;
 
 Insert into Product([product_id] , [product_name] , [product_category] , [available_quantity] ,[Price])
