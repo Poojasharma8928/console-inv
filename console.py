@@ -40,13 +40,7 @@ def calculate(productid,quantity):
             return (i[0],i[1],i[4]*quantity)
 # end def
 
-def sales(order,products):
-    productid=int(input("Please Enter Product ID:"))
-    quantity=int(input("Please Enter Quantity:"))
-    calculate(productid,quantity)
 
-    order.append((productid,quantity))
-    choice=input("Do You want to add more?? Y/N?")
 def sales(order):
     product_id=int(input("Please Enter Product ID:"))
     quantity=int(input("Please Enter Quantity:"))
