@@ -1,4 +1,4 @@
-CREATE DATABASE Project_Inventory;
+CREATE DATABASE Inventory;
 
 CREATE TABLE [Product] (
   [Product_id] int PRIMARY KEY,
@@ -8,14 +8,8 @@ CREATE TABLE [Product] (
   [price] int
 )
 GO
-
-ALTER TABLE Product 
-ADD Reorder_Level INT ;
-
---Insert into Product([Reorder_Level])
---Values (10 ), (10) ,(10) , (10), (10) ,(10) , (10) , (10), (10 ), (10) ,(10) , (10), (10) ,(10) , (10) , (10), (10) , (10) , (10) , (10);
-
-SELECT * FROM Product;
+Alter table Product
+ADD Reorder_level Int;
 
 Insert into Product([product_id] , [product_name] , [product_category] , [available_quantity] ,[Price])
 Values (1 , 'Mobile' , 'Electronic' , 35 , 20000),
@@ -41,23 +35,17 @@ Values (1 , 'Mobile' , 'Electronic' , 35 , 20000),
 
 SELECT * FROM Product;
 
+
 CREATE TABLE [Invoice] (
-  [Invoice_id] int PRIMARY KEY,
+  [Invoice_id] int IDENTITY(1,1)  PRIMARY KEY,
   [Customer_id] int,
-  [Product_id] int,
-  [Quantity] int,
-  [Invoice_amount] int
+  [Invoice_amount] int,
+  [Invoice_Date] Date
 )
 GO
 
-Insert into Invoice([Invoice_id] , [Customer_id] , [Product_id] , [Quantity] , [Invoice_amount])
-Values (101 , 501 , 10 , 5 , 100),
-(102 , 502 , 3  , 1 , 80000),
-(103 , 503 , 4 , 1 , 30000),
-(104 , 504 , 8 , 5 , 4000),
-(105 , 505 , 5 , 10 , 5000);
 
-SELECT * FROM Invoice;
+SELECT * FROM Invoice
 
 CREATE TABLE [Purchase] (
   [Purchase_id] int PRIMARY KEY,
@@ -68,17 +56,14 @@ CREATE TABLE [Purchase] (
 )
 GO
 
-SELECT * FROM Purchase;
-
-
-
 CREATE TABLE [Customer] (
   [Customer_id] int PRIMARY KEY,
   [customer_name] varchar(55)
 )
 GO
 
-Select * from Customer;
+Alter table Customer
+Add Customer_MobileNo Char(10);
 
 Insert into Customer([Customer_id]  , [customer_name])
 values( 201 , 'Pooja'),
@@ -86,27 +71,29 @@ values( 201 , 'Pooja'),
 (203 , 'Uzaif'),
 (204 , 'Mayur'),
 (205 , 'Rishabh');
-
-Select * from Customer;
+ 
+ Select * from Customer;
 
 CREATE TABLE [Invoice_details] (
   [Customer_id] int,
+  [Product_id] int,
   [Invoice_id] int,
+  [Quantity] int,
   [total_amount] int
 )
 GO
 
-ALTER TABLE [Purchase] ADD FOREIGN KEY ([Purchase_id]) REFERENCES [Product] ([Product_id])
+ALTER TABLE [Invoice_details] ADD FOREIGN KEY ([Product_id]) REFERENCES [Product] ([Product_id])
 GO
 
-ALTER TABLE [Customer] ADD FOREIGN KEY ([Customer_id]) REFERENCES [Invoice_details] ([Customer_id])
+ALTER TABLE [Purchase] ADD FOREIGN KEY ([Product_id]) REFERENCES [Product] ([Product_id])
 GO
 
-ALTER TABLE [Customer] ADD FOREIGN KEY ([Customer_id]) REFERENCES [Invoice] ([Customer_id])
-GO
-
-ALTER TABLE [Purchase] ADD FOREIGN KEY ([Product_id]) REFERENCES [Invoice] ([Product_id])
+ALTER TABLE [Invoice] ADD FOREIGN KEY ([Customer_id]) REFERENCES [Customer] ([Customer_id])
 GO
 
 ALTER TABLE [Invoice_details] ADD FOREIGN KEY ([Invoice_id]) REFERENCES [Invoice] ([Invoice_id])
+GO
+
+ALTER TABLE [Invoice_details] ADD FOREIGN KEY ([Customer_id]) REFERENCES [Customer] ([Customer_id])
 GO
