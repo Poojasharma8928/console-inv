@@ -35,40 +35,40 @@ def sales(order):
     productid=int(input("Please Enter Product ID:"))
     quantity=int(input("Please Enter Quantity:"))
     order.append((productid,quantity))
-    choice=input("Do You want to add more?? Y/N?")
+    choice=input("Do You want to Purchase more?? Y/N?")
     if choice=='y':
         sales(order)
     else:
         print(order)
         for i in order:
-            cursor.execute('UPDATE products SET avl_quant=avl_quant-? where pid=?',(i[1],i[0]))
+            cursor.execute('UPDATE products SET available_quantity = available_quantity-? where Product_id=?',(i[1],i[0]))
             cursor.commit()
         return
 order=[]
 sales(order)
 
-# # prod_id = input("Please Enter Product Id")
-# # cursor.execute('SELECT * FROM products where pid=?',prod_id)
-# # stock=[list(i) for i in cursor.fetchall()]
-# # stock_df=pd.DataFrame(stock,columns=["Product_Id","Product_Name","Category","Available Quantity","Price"])
-# # print(stock_df)
-# # quantity = input("Please Enter Quantity: ")
-# # cursor.execute('UPDATE products SET avl_quant=avl_quant+? where pid=?',(quantity,prod_id))
-# # cursor.commit()
-# # cursor.execute('SELECT * FROM products where pid=?',prod_id)
-# # stock=[list(i) for i in cursor.fetchall()]
-# # stock_df=pd.DataFrame(stock,columns=["Product_Id","Product_Name","Category","Available Quantity","Price"])
-# # print(stock_df)
+prod_id = input("Please Enter Product Id")
+cursor.execute('SELECT * FROM products where Product_id=?',prod_id)
+stock=[list(i) for i in cursor.fetchall()]
+stock_df=pd.DataFrame(stock,columns=["Product_Id","Product_Name","Category","Available Quantity","Price"])
+print(stock_df)
+quantity = input("Please Enter Quantity: ")
+cursor.execute('UPDATE products SET avl_quant=avl_quant+? where pid=?',(quantity,prod_id))
+cursor.commit()
+cursor.execute('SELECT * FROM products where Product_id=?',prod_id)
+stock=[list(i) for i in cursor.fetchall()]
+stock_df=pd.DataFrame(stock,columns=["Product_Id","Product_Name","Category","Available Quantity","Price"])
+print(stock_df)
 
 product_id = input("Please Enter Product Id:")
-cursor.execute('SELECT * FROM products where pid=?',product_id)
+cursor.execute('SELECT * FROM products where Product_id=?',product_id)
 sale=[list(i) for i in cursor.fetchall()]
 sale=pd.DataFrame(sale,columns=["Product_Id","Product_Name","Category","Available Quantity","Price"])
 print(sale)
 quantity = input("Please Enter Quantity: ")
-cursor.execute('UPDATE products SET avl_quant=avl_quant-? where pid=?',(quantity,product_id))
+cursor.execute('UPDATE products SET available_quantity=available_quantity-? where Product_id=?',(quantity,product_id))
 cursor.commit()
-cursor.execute('SELECT * FROM products where pid=?',product_id)
+cursor.execute('SELECT * FROM products where Product_id=?',product_id)
 sale=[list(i) for i in cursor.fetchall()]
 sale=pd.DataFrame(sale[0])
 print(sale)
