@@ -19,7 +19,7 @@ conn = pyodbc.connect('Driver={SQL Server};'
 # os.system('cls')
 # print("Connected Successfully")
 
-fg
+
 # # #Opening A Cursor
 cursor=conn.cursor()
 
