@@ -1,6 +1,0 @@
-SELECT TOP (1000) [Invoice_id]
-      ,[Customer_id]
-      ,[Product_id]
-      ,[Quantity]
-      ,[Invoice_amount]
-  FROM [Project_Inventory].[dbo].[Invoice]
