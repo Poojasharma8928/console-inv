@@ -31,6 +31,21 @@ def inventory():
     df=pd.DataFrame(products,columns=["Product_Id","Product_Name","Category","Available Quantity","Price"])
     print(df)
 
+def sales(order):
+    productid=int(input("Please Enter Product ID:"))
+    quantity=int(input("Please Enter Quantity:"))
+    order.append((productid,quantity))
+    choice=input("Do You want to add more?? Y/N?")
+    if choice=='y':
+        sales(order)
+    else:
+        print(order)
+        for i in order:
+            cursor.execute('UPDATE products SET avl_quant=avl_quant-? where pid=?',(i[1],i[0]))
+            cursor.commit()
+        return
+order=[]
+sales(order)
 
 # # prod_id = input("Please Enter Product Id")
 # # cursor.execute('SELECT * FROM products where pid=?',prod_id)
