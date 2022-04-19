@@ -47,37 +47,37 @@ def sales(order):
 order=[]
 sales(order)
 
-prod_id = input("Please Enter Product Id")
-cursor.execute('SELECT * FROM Product where Product_id=?',prod_id)
-stock=[list(i) for i in cursor.fetchall()]
-stock_df=pd.DataFrame(stock,columns=["Product_Id","Product_Name","Category","Available Quantity","Price"])
-print(stock_df)
-quantity = input("Please Enter Quantity: ")
-cursor.execute('UPDATE Product SET available_quantity =available_quantity+? where Product_id=?',(quantity,prod_id))
-cursor.commit()
-cursor.execute('SELECT * FROM Product where Product_id=?',prod_id)
-stock=[list(i) for i in cursor.fetchall()]
-stock_df=pd.DataFrame(stock,columns=["Product_Id","Product_Name","Category","Available Quantity","Price"])
-print(stock_df)
+# prod_id = input("Please Enter Product Id")
+# cursor.execute('SELECT * FROM Product where Product_id=?',prod_id)
+# stock=[list(i) for i in cursor.fetchall()]
+# stock_df=pd.DataFrame(stock,columns=["Product_Id","Product_Name","Category","Available Quantity","Price"])
+# print(stock_df)
+# quantity = input("Please Enter Quantity: ")
+# cursor.execute('UPDATE Product SET available_quantity =available_quantity+? where Product_id=?',(quantity,prod_id))
+# cursor.commit()
+# cursor.execute('SELECT * FROM Product where Product_id=?',prod_id)
+# stock=[list(i) for i in cursor.fetchall()]
+# stock_df=pd.DataFrame(stock,columns=["Product_Id","Product_Name","Category","Available Quantity","Price"])
+# print(stock_df)
 
-product_id = input("Please Enter Product Id:")
-cursor.execute('SELECT * FROM Product where Product_id=?',product_id)
-sale=[list(i) for i in cursor.fetchall()]
-sale=pd.DataFrame(sale,columns=["Product_Id","Product_Name","Category","Available Quantity","Price"])
-print(sale)
-quantity = input("Please Enter Quantity: ")
-cursor.execute('UPDATE Product SET available_quantity=available_quantity-? where Product_id=?',(quantity,product_id))
-cursor.commit()
-cursor.execute('SELECT * FROM Product where Product_id=?',product_id)
-sale=[list(i) for i in cursor.fetchall()]
-sale=pd.DataFrame(sale[0])
-print(sale)
+# product_id = input("Please Enter Product Id:")
+# cursor.execute('SELECT * FROM Product where Product_id=?',product_id)
+# sale=[list(i) for i in cursor.fetchall()]
+# sale=pd.DataFrame(sale,columns=["Product_Id","Product_Name","Category","Available Quantity","Price"])
+# print(sale)
+# quantity = input("Please Enter Quantity: ")
+# cursor.execute('UPDATE Product SET available_quantity=available_quantity-? where Product_id=?',(quantity,product_id))
+# cursor.commit()
+# cursor.execute('SELECT * FROM Product where Product_id=?',product_id)
+# sale=[list(i) for i in cursor.fetchall()]
+# sale=pd.DataFrame(sale[0])
+# print(sale)
 
-def display():
-    print("1. Sales")
-    print("2. Inventory")
-    print("3. Out of Stock")
-    print("4. Orders")
-    print("5. Customers")
+# def display():
+#     print("1. Sales")
+#     print("2. Inventory")
+#     print("3. Out of Stock")
+#     print("4. Orders")
+#     print("5. Customers")
 
-display()
+# display()
