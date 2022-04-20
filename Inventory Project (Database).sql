@@ -104,7 +104,7 @@ ADD Constraint PK_Invoice_details PRIMARY KEY (Invoice_details_id)
 ALTER TABLE Customer
 ADD Constraint PK_customer PRIMARY KEY (Customer_id)
 
--- Added Foreign key
+-- Added Foreign key for all tables
 ALTER TABLE Invoice_details
 ADD Constraint FK_ProductInvoice_details
 Foreign key (Product_id) REFERENCES Product(Product_id)
