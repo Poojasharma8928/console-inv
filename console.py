@@ -40,18 +40,14 @@ def calculate(productid,quantity):
         if i[0]==productid:
             return (i[0],i[1],i[4]*quantity)
 # end def
-<<<<<<< HEAD
-    
-=======
 
 
->>>>>>> 6f304199c17e12332ddc97f3473f0b435cf86370
 def sales(order):
     product_id=int(input("Please Enter Product ID:"))
     quantity=int(input("Please Enter Quantity:"))
     order.append((product_id,quantity))
     choice=input("Do You want to Purchase more?? Y/N?")
-    if choice=='y':
+    if choice=='y' or 'Y':
         sales(order)
     else:
         print(order)
