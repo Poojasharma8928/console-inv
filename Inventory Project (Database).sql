@@ -75,7 +75,7 @@ values( 201 , 'Pooja'),
  Select * from Customer;
 
 CREATE TABLE [Invoice_details] (
-  [Customer_id] int,
+  [Invoice_details_id] int,
   [Product_id] int,
   [Invoice_id] int,
   [Quantity] int,
@@ -83,17 +83,50 @@ CREATE TABLE [Invoice_details] (
 )
 GO
 
-ALTER TABLE [Invoice_details] ADD FOREIGN KEY ([Product_id]) REFERENCES [Product] ([Product_id])
-GO
+select * from Invoice_details
 
-ALTER TABLE [Purchase] ADD FOREIGN KEY ([Product_id]) REFERENCES [Product] ([Product_id])
-GO
+-- Added primary key
+ALTER TABLE Product 
+ADD Constraint PK_Product PRIMARY KEY (Product_id)
 
-ALTER TABLE [Invoice] ADD FOREIGN KEY ([Customer_id]) REFERENCES [Customer] ([Customer_id])
-GO
+ALTER TABLE Purchase
+ADD Constraint PK_Purchase PRIMARY KEY (Purchase_id)
 
-ALTER TABLE [Invoice_details] ADD FOREIGN KEY ([Invoice_id]) REFERENCES [Invoice] ([Invoice_id])
-GO
+ALTER TABLE Invoice
+ADD Constraint PK_Invoice PRIMARY KEY (Invoice_id)
 
-ALTER TABLE [Invoice_details] ADD FOREIGN KEY ([Customer_id]) REFERENCES [Customer] ([Customer_id])
-GO
+ALTER TABLE Invoice_details
+ADD Invoice_details_id int NOT NULL
+
+ALTER TABLE Invoice_details
+ADD Constraint PK_Invoice_details PRIMARY KEY (Invoice_details_id)
+
+ALTER TABLE Customer
+ADD Constraint PK_customer PRIMARY KEY (Customer_id)
+
+-- Added Foreign key
+ALTER TABLE Invoice_details
+ADD Constraint FK_ProductInvoice_details
+Foreign key (Product_id) REFERENCES Product(Product_id)
+
+
+
+ALTER TABLE dbo.Invoice
+ADD Constraint FK_CustomerInvoice
+Foreign key (Customer_id) REFERENCES Customer(Customer_id)
+
+ALTER TABLE Invoice_details
+ADD Constraint FK_InvoiceInvoice_details
+Foreign key (Invoice_id) REFERENCES Invoice(Invoice_id)
+
+ALTER TABLE Purchase
+ADD Constraint FK_PurchaseProduct
+Foreign key (Product_id) REFERENCES Product(Product_id)
+
+
+ALTER TABLE Invoice ADD Customer_id INT
+
+
+
+
+
