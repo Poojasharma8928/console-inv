@@ -52,7 +52,7 @@ def sales(order):
     else:
         print(order)
         for i in order:
-            cursor.execute('UPDATE Product SET available_quantity = available_quantity-? where Product_id=?',(i[1],i[0]))
+            cursor.execute('UPDATE Product SET Available_quantity = Available_quantity-? where Product_id=?',(i[1],i[0]))
             cursor.commit()
         return
 order=[]
