@@ -5,7 +5,7 @@ import pandas as pd
 import pyodbc
 # # # Connecting With Database
 conn = pyodbc.connect('Driver={SQL Server};'
-                    'Server=ZIL1157\MSSQLSRVDEV19;'
+                    'Server=ZIL1180\MSSQLDEV2019;'
                     'Database=Inventory;'
                     'Trusted_Connection=yes;')
 animation = "|/-\\"
@@ -34,29 +34,29 @@ def inventory():
     
 inventory()
 
-def calculate(productid,quantity):
-    # comment: to calculate total amount 
+def calculate(productid,quantity,products):
     for i in products:
         if i[0]==productid:
-            return (i[0],i[1],i[4]*quantity)
-# end def
+            return i[1],i[4]
 
 
-def sales(order):
-    product_id=int(input("Please Enter Product ID:"))
-    quantity=int(input("Please Enter Quantity:"))
-    order.append((product_id,quantity))
-    choice=input("Do You want to Purchase more?? Y/N?")
-    if choice=='y' or 'Y':
-        sales(order)
+cart=[]
+def sales(cart):
+    productid = int(input("Please enter Product Id: "))
+    quantity = int(input("Please enter Quantity: "))
+    name_price=calculate(productid,quantity,products)
+    cart_item=(productid,name_price[0],quantity,name_price[1],name_price[1]*quantity)
+    cart.append(list(cart_item))
+    choice=input("Do You want add more??? Y/N?")
+    if choice=='y' or choice=='Y':
+        sales(cart)
     else:
-        print(order)
-        for i in order:
-            cursor.execute('UPDATE Product SET Available_quantity = Available_quantity-? where Product_id=?',(i[1],i[0]))
+        cart_df=pd.DataFrame(cart,columns=['Product Id','Product Name','Quantity','Price','Total'])
+        print(cart_df)
+        for i in cart:
+            cursor.execute('UPDATE Product set Available_quantity=Available_quantity-? WHERE Product_id=?',i[2],i[0])
             cursor.commit()
-        return
-order=[]
-sales(order)
+sales(cart)
 
 
 def display():
