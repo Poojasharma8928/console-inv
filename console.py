@@ -1,13 +1,14 @@
-# Importing Libraries
 import os,time
 os.system('cls')
 import pandas as pd
 import pyodbc
 # # # Connecting With Database
 conn = pyodbc.connect('Driver={SQL Server};'
-                    'Server=ZIL1180\MSSQLDEV2019;'
-                    'Database=Inventory;'
-                    'Trusted_Connection=yes;')
+                      'Server=ZIL1161\MSSQLDEV2019;'
+                      'UID=SA;'
+                      'PWD=perficient@123;'
+                      'Database=Inventory;'
+                      'Trusted_Connection=no;')
 animation = "|/-\\"
 idx = 0
 while True:
@@ -56,7 +57,24 @@ def sales(cart):
         for i in cart:
             cursor.execute('UPDATE Product set Available_quantity=Available_quantity-? WHERE Product_id=?',i[2],i[0])
             cursor.commit()
-sales(cart)
+
+def customer():
+    global customer_list
+    cursor.execute('SELECT * FROM customer')
+    customer_list=[list(i) for i in cursor.fetchall()]
+    customer_df=pd.DataFrame(customer_list,columns=['Customer_id','Customer Name','Mobile No'])
+    print(customer_df)
+customer()
+def check_customer():
+    mobileno = input("Please enter customer mobile no: ")
+    for i in customer_list:
+        if i[3]==mobileno:
+         return i[0],i[1]
+        return False
+if check_customer():
+    sales(cart)
+else:
+    print("No customer Found")
 
 
 def display():
@@ -66,4 +84,4 @@ def display():
     print("4. Orders")
     print("5. Customers")
 
-display()
+
