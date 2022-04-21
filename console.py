@@ -1,3 +1,4 @@
+from audioop import add
 import os,time
 os.system('cls')
 import pandas as pd
@@ -49,8 +50,6 @@ def sales(cart):
     cart.append(list(cart_item))
     temp_cart=pd.DataFrame(cart,columns=['Product Id','Product Name','Quantity','Price','Total'])
     print(temp_cart)
-    Total = df['Total'].sum()
-    print (Total)
     choice=input("Do You want add more??? Y/N?")
     if choice=='y' or choice=='Y':
         sales(cart)
@@ -61,7 +60,6 @@ def sales(cart):
             cursor.execute('UPDATE Product set Available_quantity=Available_quantity-? WHERE Product_id=?',i[2],i[0])
             cursor.commit()
 
-<<<<<<< HEAD
 def customer():
     global customer_list
     cursor.execute('SELECT * FROM customer')
@@ -72,27 +70,23 @@ customer()
 def check_customer():
     mobileno = input("Please enter customer mobile no: ")
     for i in customer_list:
-        if i[3]==mobileno:
+        if i[2]==mobileno:
          return i[0],i[1]
-        return False
+    return False
 if check_customer():
     sales(cart)
 else:
-    print("No customer Found")
-=======
-sales(cart)
->>>>>>> ac325c3c6ce7e65d69d6aca65e9e699aa2a3f224
-
-
+    print("Customer Not Found")
+    add_customer = input("Do You want add customer??? Y/N?")
+    if add_customer=='y' or add_customer=='Y':
+        New_customer_name = input("Enter customer Name")
+        cursor.execute('Insert into Customer(customer_name) values (?)',New_customer_name)
+    else:
+        print("Thanks")
 def display():
     print("1. Sales")
-    print("2. Inventory")
     print("3. Out of Stock")# if Quantity <=Reorder :
     print("4. Orders")
     print("5. Customers")
+display()
 
-<<<<<<< HEAD
-
-=======
-# display()
->>>>>>> ac325c3c6ce7e65d69d6aca65e9e699aa2a3f224
