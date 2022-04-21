@@ -5,11 +5,9 @@ import pandas as pd
 import pyodbc
 # # # Connecting With Database
 conn = pyodbc.connect('Driver={SQL Server};'
-                      'Server=ZIL1161\MSSQLDEV2019;'
-                      'UID=SA;'
-                      'PWD=perficient@123;'
+                      'Server=ZIL1185\MSSQLDEV2019;'
                       'Database=Inventory;'
-                      'Trusted_Connection=no;')
+                      'Trusted_Connection=Yes;')
 animation = "|/-\\"
 idx = 0
 while True:
@@ -34,7 +32,7 @@ def inventory():
     df=pd.DataFrame(products,columns=["Product_Id","Product_Name","Category","Available Quantity","Price","Reorder Level"])
     return products
 inventory()    
-
+#sdfgh
 def calculate(productid,quantity,products):
     for i in products:
         if i[0]==productid:
