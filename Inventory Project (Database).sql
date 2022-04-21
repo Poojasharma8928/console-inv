@@ -65,6 +65,10 @@ GO
 Alter table Customer
 Add Customer_MobileNo Char(10);
 
+INSERT into Customer(Customer_MobileNo)
+VALUES(9359909579),(9876543210),(7219624662),(8888305737),(7743834334)
+
+
 Insert into Customer([Customer_id]  , [customer_name])
 values( 201 , 'Pooja'),
 (202 , 'Sayli'),
