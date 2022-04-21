@@ -30,9 +30,8 @@ def inventory():
     cursor.execute("SELECT * FROM Product")
     products=[list(i) for i in cursor.fetchall()]
     df=pd.DataFrame(products,columns=["Product_Id","Product_Name","Category","Available Quantity","Price","Reorder Level"])
-    print(df)
-    
-inventory()
+    return products
+inventory()    
 
 def calculate(productid,quantity,products):
     for i in products:
@@ -44,9 +43,13 @@ cart=[]
 def sales(cart):
     productid = int(input("Please enter Product Id: "))
     quantity = int(input("Please enter Quantity: "))
-    name_price=calculate(productid,quantity,products)
+    name_price=calculate(productid,quantity,inventory())
     cart_item=(productid,name_price[0],quantity,name_price[1],name_price[1]*quantity)
     cart.append(list(cart_item))
+    temp_cart=pd.DataFrame(cart,columns=['Product Id','Product Name','Quantity','Price','Total'])
+    print(temp_cart)
+    Total = df['Total'].sum()
+    print (Total)
     choice=input("Do You want add more??? Y/N?")
     if choice=='y' or choice=='Y':
         sales(cart)
@@ -56,14 +59,15 @@ def sales(cart):
         for i in cart:
             cursor.execute('UPDATE Product set Available_quantity=Available_quantity-? WHERE Product_id=?',i[2],i[0])
             cursor.commit()
+
 sales(cart)
 
 
 def display():
     print("1. Sales")
     print("2. Inventory")
-    print("3. Out of Stock")
+    print("3. Out of Stock")# if Quantity <=Reorder :
     print("4. Orders")
     print("5. Customers")
 
-display()
+# display()
