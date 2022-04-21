@@ -85,7 +85,7 @@ GO
 
 select * from Invoice_details
 
--- Added primary key
+-- Added primary key for all tables
 ALTER TABLE Product 
 ADD Constraint PK_Product PRIMARY KEY (Product_id)
 
