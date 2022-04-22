@@ -57,24 +57,21 @@ CREATE TABLE [Purchase] (
 GO
 
 CREATE TABLE [Customer] (
-  [Customer_id] int PRIMARY KEY,
-  [customer_name] varchar(55)
+  [Customer_id] int Identity(1,1) PRIMARY KEY,
+  [customer_name] varchar(55),
+  [Customer_MobileNo] Char(10)
 )
 GO
 
-Alter table Customer
-Add Customer_MobileNo Char(10);
-
-INSERT into Customer(Customer_MobileNo)
-VALUES(9359909579),(9876543210),(7219624662),(8888305737),(7743834334)
 
 
-Insert into Customer([Customer_id]  , [customer_name])
-values( 201 , 'Pooja'),
-(202 , 'Sayli'),
-(203 , 'Uzaif'),
-(204 , 'Mayur'),
-(205 , 'Rishabh');
+
+Insert into Customer( [customer_name] , [Customer_MobileNo])
+values(  'Pooja' , 9359909579),
+( 'Sayli' , 9876543210),
+( 'Uzaif', 7219624662 ),
+( 'Mayur' , 8888305737),
+( 'Rishabh' , 7743834334);
  
  Select * from Customer;
 
