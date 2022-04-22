@@ -32,7 +32,6 @@ def inventory():
     df=pd.DataFrame(products,columns=["Product_Id","Product_Name","Category","Available Quantity","Price","Reorder Level"])
     return products
 inventory()    
-#sdfgh
 def calculate(productid,quantity,products):
     for i in products:
         if i[0]==productid:
