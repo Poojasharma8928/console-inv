@@ -1,11 +1,11 @@
-from audioop import add
 import os,time
+from datetime import datetime
 os.system('cls')
 import pandas as pd
 import pyodbc
 # # # Connecting With Database
 conn = pyodbc.connect('Driver={SQL Server};'
-                      'Server=ZIL1185\MSSQLDEV2019;'
+                      'Server=ZIL1180\MSSQLDEV2019;'
                       'Database=Inventory;'
                       'Trusted_Connection=Yes;')
 animation = "|/-\\"
@@ -40,7 +40,7 @@ def calculate(productid,quantity,products):
 
 
 cart=[]
-def sales(cart):
+def sales(cart,id):
     productid = int(input("Please enter Product Id: "))
     quantity = int(input("Please enter Quantity: "))
     name_price=calculate(productid,quantity,inventory())
@@ -48,15 +48,27 @@ def sales(cart):
     cart.append(list(cart_item))
     temp_cart=pd.DataFrame(cart,columns=['Product Id','Product Name','Quantity','Price','Total'])
     print(temp_cart)
+    total=[i[4] for i in cart ]
+    total=sum(total)
+    print("Total = {}".format(total))
     choice=input("Do You want add more??? Y/N?")
     if choice=='y' or choice=='Y':
-        sales(cart)
+        sales(cart,id)
     else:
         cart_df=pd.DataFrame(cart,columns=['Product Id','Product Name','Quantity','Price','Total'])
         print(cart_df)
+        cursor.execute('EXEC InsertOrder ?,?',id,total)
+        cursor.commit()
+        cursor.execute('SELECT max(invoice_id) from Invoice')
+        invoiceid=cursor.fetchval()
         for i in cart:
             cursor.execute('UPDATE Product set Available_quantity=Available_quantity-? WHERE Product_id=?',i[2],i[0])
             cursor.commit()
+            cursor.execute('EXEC InsertOrderDetail ?,?,?,?,?',invoiceid,i[0],id,i[2],i[4])
+            cursor.commit()
+        print(invoiceid)
+        cursor.close()
+
 
 def customer():
     global customer_list
@@ -69,10 +81,11 @@ def check_customer():
     mobileno = input("Please enter customer mobile no: ")
     for i in customer_list:
         if i[2]==mobileno:
-         return i[0],i[1]
+         return i[0]
     return False
-if check_customer():
-    sales(cart)
+id=check_customer()
+if id:
+    sales(cart,id)
 else:
     print("Customer Not Found")
     add_customer = input("Do You want add customer??? Y/N?")
@@ -86,5 +99,5 @@ def display():
     print("3. Out of Stock")# if Quantity <=Reorder :
     print("4. Orders")
     print("5. Customers")
-display()
+# display()
 
