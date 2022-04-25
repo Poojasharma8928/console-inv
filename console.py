@@ -5,7 +5,7 @@ import pandas as pd
 import pyodbc
 # # # Connecting With Database
 conn = pyodbc.connect('Driver={SQL Server};'
-                      'Server=ZIL1180\MSSQLDEV2019;'
+                      'Server=ZIL1157\MSSQLSRVDEV19;'
                       'Database=Inventory;'
                       'Trusted_Connection=Yes;')
 animation = "|/-\\"
@@ -30,6 +30,7 @@ def inventory():
     cursor.execute("SELECT * FROM Product")
     products=[list(i) for i in cursor.fetchall()]
     df=pd.DataFrame(products,columns=["Product_Id","Product_Name","Category","Available Quantity","Price","Reorder Level"])
+    print(df)
     return products
 inventory()    
 #sdfgh
