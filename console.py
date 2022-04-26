@@ -1,13 +1,15 @@
+from audioop import add
 import os,time
-from datetime import datetime
 os.system('cls')
 import pandas as pd
 import pyodbc
-# # # Connecting With Database
+# Connecting With Database
 conn = pyodbc.connect('Driver={SQL Server};'
-                      'Server=ZIL1157\MSSQLSRVDEV19;'
-                      'Database=Inventory;'
-                      'Trusted_Connection=Yes;')
+                      'SERVER=ZIL1161\MSSQLDEV2019;'
+                      'UID=SA;'
+                      'PWD=perficient@123;'
+                      'DATABASE=Inventory;'
+                      'Trusted_Connection=no;')
 animation = "|/-\\"
 idx = 0
 while True:
@@ -32,8 +34,8 @@ def inventory():
     df=pd.DataFrame(products,columns=["Product_Id","Product_Name","Category","Available Quantity","Price","Reorder Level"])
     print(df)
     return products
+
 inventory()    
-#sdfgh
 def calculate(productid,quantity,products):
     for i in products:
         if i[0]==productid:
@@ -41,7 +43,7 @@ def calculate(productid,quantity,products):
 
 
 cart=[]
-def sales(cart,id):
+def sales(cart):
     productid = int(input("Please enter Product Id: "))
     quantity = int(input("Please enter Quantity: "))
     name_price=calculate(productid,quantity,inventory())
@@ -49,27 +51,15 @@ def sales(cart,id):
     cart.append(list(cart_item))
     temp_cart=pd.DataFrame(cart,columns=['Product Id','Product Name','Quantity','Price','Total'])
     print(temp_cart)
-    total=[i[4] for i in cart ]
-    total=sum(total)
-    print("Total = {}".format(total))
     choice=input("Do You want add more??? Y/N?")
     if choice=='y' or choice=='Y':
-        sales(cart,id)
+        sales(cart)
     else:
         cart_df=pd.DataFrame(cart,columns=['Product Id','Product Name','Quantity','Price','Total'])
         print(cart_df)
-        cursor.execute('EXEC InsertOrder ?,?',id,total)
-        cursor.commit()
-        cursor.execute('SELECT max(invoice_id) from Invoice')
-        invoiceid=cursor.fetchval()
         for i in cart:
             cursor.execute('UPDATE Product set Available_quantity=Available_quantity-? WHERE Product_id=?',i[2],i[0])
             cursor.commit()
-            cursor.execute('EXEC InsertOrderDetail ?,?,?,?,?',invoiceid,i[0],id,i[2],i[4])
-            cursor.commit()
-        print(invoiceid)
-        cursor.close()
-
 
 def customer():
     global customer_list
@@ -77,16 +67,21 @@ def customer():
     customer_list=[list(i) for i in cursor.fetchall()]
     customer_df=pd.DataFrame(customer_list,columns=['Customer_id','Customer Name','Mobile No'])
     print(customer_df)
+
+
+
+
+
+    
 customer()
 def check_customer():
     mobileno = input("Please enter customer mobile no: ")
     for i in customer_list:
         if i[2]==mobileno:
-         return i[0]
+         return i[0],i[1]
     return False
-id=check_customer()
-if id:
-    sales(cart,id)
+if check_customer():
+    sales(cart)
 else:
     print("Customer Not Found")
     add_customer = input("Do You want add customer??? Y/N?")
@@ -100,5 +95,5 @@ def display():
     print("3. Out of Stock")# if Quantity <=Reorder :
     print("4. Orders")
     print("5. Customers")
-# display()
+display()
 
