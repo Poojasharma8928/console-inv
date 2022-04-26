@@ -3,11 +3,13 @@ import os,time
 os.system('cls')
 import pandas as pd
 import pyodbc
-# # # Connecting With Database
+# Connecting With Database
 conn = pyodbc.connect('Driver={SQL Server};'
-                      'Server=ZIL1185\MSSQLDEV2019;'
-                      'Database=Inventory;'
-                      'Trusted_Connection=Yes;')
+                      'SERVER=ZIL1161\MSSQLDEV2019;'
+                      'UID=SA;'
+                      'PWD=perficient@123;'
+                      'DATABASE=Inventory;'
+                      'Trusted_Connection=no;')
 animation = "|/-\\"
 idx = 0
 while True:
