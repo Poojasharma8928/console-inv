@@ -65,9 +65,9 @@ def sales(cart,id):
         for i in cart:
             cursor.execute('UPDATE Product set Available_quantity=Available_quantity-? WHERE Product_id=?',i[2],i[0])
             cursor.commit()
-            cursor.execute('EXEC InsertOrderDetail ?,?,?,?,?',invoiceid,i[0],id,i[2],i[4])
+            cursor.execute('EXEC InsertOrderDetail ?,?,?,?',invoiceid,i[0],i[2],i[4])
             cursor.commit()
-        print(invoiceid)
+        print("\t\t\t\t\ttotal :{}".format(total))
         cursor.close()
 
 
