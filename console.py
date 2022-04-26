@@ -39,6 +39,33 @@ def calculate(productid,quantity,products):
         if i[0]==productid:
             return i[1],i[4]
 
+def orders():
+    cursor.execute('EXEC DisplayOrders')
+    orders=[list(i) for i in cursor.fetchall()]
+    orders=pd.DataFrame(orders,columns=['Invoice ID','Customer Name','Invoice Amount','Invoice Date'])
+    print(orders)
+    print("1. Order Details using Invoice ID")   
+    print("2. Order of Specific Customer")
+    choice = int(input("Please enter: "))
+    if choice==1:
+        InvoiceDetail()
+    if choice==2:
+        Customer_Invoice()
+        if int(input("Press 1 for Specific Invoice Details"))==1:
+            InvoiceDetail()
+
+
+def InvoiceDetail():
+    cursor.execute('EXEC DisplayInvoiceOrder ?',int(input("Please Enter Invoice ID:")))   
+    orders=pd.DataFrame([list(i) for i in cursor.fetchall()],columns=['Invoice Date','Product Name','Quantity','Total Amount'])
+    print(orders)
+
+def Customer_Invoice():
+    cursor.execute('EXEC DisplayCustomerOrder ?',int(input("Please Enter Customer Mobile No:")))   
+    orders=pd.DataFrame([list(i) for i in cursor.fetchall()],columns=['Invoice ID','Invoice Date','Invoice Amount'])
+    print(orders)
+
+
 
 cart=[]
 def sales(cart,id):
@@ -77,12 +104,17 @@ def customer():
     customer_list=[list(i) for i in cursor.fetchall()]
     customer_df=pd.DataFrame(customer_list,columns=['Customer_id','Customer Name','Mobile No'])
 customer()
+
+
+
 def check_customer():
     mobileno = input("Please enter customer mobile no: ")
     for i in customer_list:
         if i[2]==mobileno:
          return i[0]
     return False
+
+
 def display():
     print("1. Sales")
     print("3. Out of Stock")# if Quantity <=Reorder :
@@ -97,17 +129,13 @@ def display():
             print("Customer Not Found")
             add_customer = input("Do You want add customer??? Y/N?")
             if add_customer=='y' or add_customer=='Y':
-                New_customer_name = input("Enter customer Name")
-                cursor.execute('Insert into Customer(customer_name) values (?)',New_customer_name)
+                Name = input("Enter customer Name :")
+                Mobile = input("Enter customer Mobile:")
+                cursor.execute('EXEC AddCustomer ?,?',Name,Mobile)
+                cursor.commit()
             else:
-                print("Thanks")        
+                display()        
+    if choice==4:
+        orders()
+
 display()
-
-
-
-def orders():
-    print("1.Specific Customer")
-    print("2.All Customers")
-
-def spec_customer_order(customer_id):
-    

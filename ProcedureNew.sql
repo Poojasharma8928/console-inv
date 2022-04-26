@@ -15,7 +15,10 @@ exec InsertOrderDetail 2,5,6,64000
 SELECT * FROM Invoice
 SELECT * FROM Invoice_details
 
-CREATE PROCEDURE InsertOrderDetail
+DELETE Invoice
+DELETE Invoice_details
+
+ALTER PROCEDURE InsertOrderDetail
 @InvoiceID int,@ProductId int,@Quantity int,@totalAmount int
 AS
 BEGIN
@@ -30,3 +33,8 @@ AS
 BEGIN
 INSERT INTO Customer(customer_name,Customer_MobileNo) VALUES (@Customer_name,@Mobile)
 END
+
+
+select * from Product
+
+UPDATE Product SET Reorder_level=10
