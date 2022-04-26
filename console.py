@@ -30,7 +30,7 @@ def inventory():
     cursor.execute("SELECT * FROM Product")
     products=[list(i) for i in cursor.fetchall()]
     df=pd.DataFrame(products,columns=["Product_Id","Product_Name","Category","Available Quantity","Price","Reorder Level"])
-    #print(df)
+    # print(df)
     return products
 inventory()    
 #sdfgh
@@ -76,7 +76,6 @@ def customer():
     cursor.execute('SELECT * FROM customer')
     customer_list=[list(i) for i in cursor.fetchall()]
     customer_df=pd.DataFrame(customer_list,columns=['Customer_id','Customer Name','Mobile No'])
-    print(customer_df)
 customer()
 def check_customer():
     mobileno = input("Please enter customer mobile no: ")
@@ -84,21 +83,31 @@ def check_customer():
         if i[2]==mobileno:
          return i[0]
     return False
-id=check_customer()
-if id:
-    sales(cart,id)
-else:
-    print("Customer Not Found")
-    add_customer = input("Do You want add customer??? Y/N?")
-    if add_customer=='y' or add_customer=='Y':
-        New_customer_name = input("Enter customer Name")
-        cursor.execute('Insert into Customer(customer_name) values (?)',New_customer_name)
-    else:
-        print("Thanks")
 def display():
     print("1. Sales")
     print("3. Out of Stock")# if Quantity <=Reorder :
     print("4. Orders")
     print("5. Customers")
-# display()
+    choice = int(input("Please Enter Choice :"))
+    if choice==1:
+        id=check_customer()
+        if id:
+            sales(cart,id)
+        else:
+            print("Customer Not Found")
+            add_customer = input("Do You want add customer??? Y/N?")
+            if add_customer=='y' or add_customer=='Y':
+                New_customer_name = input("Enter customer Name")
+                cursor.execute('Insert into Customer(customer_name) values (?)',New_customer_name)
+            else:
+                print("Thanks")        
+display()
 
+
+
+def orders():
+    print("1.Specific Customer")
+    print("2.All Customers")
+
+def spec_customer_order(customer_id):
+    
