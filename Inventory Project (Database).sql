@@ -48,7 +48,7 @@ GO
 SELECT * FROM Invoice
 
 CREATE TABLE [Purchase] (
-  [Purchase_id] int PRIMARY KEY,
+  [Purchase_id] int IDENTITY(1,1) PRIMARY KEY,
   [Product_id] int,
   [Quantity] int,
   [purchase_date] date,
@@ -76,7 +76,7 @@ values(  'Pooja' , 9359909579),
  Select * from Customer;
 
 CREATE TABLE [Invoice_details] (
-  [Invoice_details_id] int,
+  [Invoice_details_id] int IDENTITY(1,1) PRIMARY KEY,
   [Product_id] int,
   [Invoice_id] int,
   [Quantity] int,
@@ -109,7 +109,6 @@ ADD Constraint PK_customer PRIMARY KEY (Customer_id)
 ALTER TABLE Invoice_details
 ADD Constraint FK_ProductInvoice_details
 Foreign key (Product_id) REFERENCES Product(Product_id)
-
 
 
 ALTER TABLE dbo.Invoice
