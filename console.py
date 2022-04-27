@@ -127,6 +127,7 @@ def display():
         orders()
     if choice == 4:
         print(customer())
+        
 
 
 display()
