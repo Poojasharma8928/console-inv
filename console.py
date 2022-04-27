@@ -5,9 +5,11 @@ import pandas as pd
 import pyodbc
 # # # Connecting With Database
 conn = pyodbc.connect('Driver={SQL Server};'
-                      'Server=ZIL1180\MSSQLDEV2019;'
-                      'Database=Inventory;'
-                      'Trusted_Connection=Yes;')
+                      'SERVER=ZIL1161\MSSQLDEV2019;'
+                      'UID=SA;'
+                      'PWD=perficient@123;'
+                      'DATABASE=Inventory;'
+                      'Trusted_Connection=no;')
 animation = "|/-\\"
 idx = 0
 while True:
@@ -117,9 +119,9 @@ def check_customer():
 
 def display():
     print("1. Sales")
-    print("3. Out of Stock")# if Quantity <=Reorder :
-    print("4. Orders")
-    print("5. Customers")
+    print("2. Out of Stock")# if Quantity <=Reorder :
+    print("3. Orders")
+    print("4. Customers")
     choice = int(input("Please Enter Choice :"))
     if choice==1:
         id=check_customer()
