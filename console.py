@@ -132,6 +132,7 @@ def display():
 
     if choice == 4:
         print(customer())
+        
 
 
 display()
