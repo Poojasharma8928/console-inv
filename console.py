@@ -124,15 +124,18 @@ def display():
     if choice == 2:
         cursor.execute('EXEC out_of_stock')
         out= [list(i)for i in cursor.fetchall()]
-        out=pd.DataFrame(out, columns=['product id','Product name','Product category','Available quantity','Price','Reorder level'])
-        print(out)
+        if out:
+            out=pd.DataFrame(out, columns=['product id','Product name','Product category','Available quantity','Price','Reorder level'])
+            print(out)
+        else:
+            print("No Product Out Of Stock")
     
     if choice==3:
         orders()
 
     if choice == 4:
         print(customer())
-        
+
 
 
 display()
