@@ -129,6 +129,7 @@ def display():
             print(out)
         else:
             print("No Product Out Of Stock")
+            display()
     
     if choice==3:
         orders()
