@@ -1,4 +1,3 @@
-import os,time
 from datetime import datetime
 os.system('cls')
 import pandas as pd
@@ -21,7 +20,7 @@ print("Connected Successfully")
 
 
 # # #Opening A Cursor
-cursor=conn.cursor()
+cursor=connection.conn.cursor()
 
 #Fetching All Products from inventory
 cursor.execute("SELECT * FROM Product")
@@ -118,9 +117,9 @@ def check_customer():
 
 def display():
     print("1. Sales")
-    print("3. Out of Stock")# if Quantity <=Reorder :
-    print("4. Orders")
-    print("5. Customers")
+    print("2. Out of Stock")# if Quantity <=Reorder :
+    print("3. Orders")
+    print("4. Customers")
     choice = int(input("Please Enter Choice :"))
     if choice==1:
         id=check_customer()
