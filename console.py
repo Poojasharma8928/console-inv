@@ -119,6 +119,7 @@ def display():
                 Mobile = input("Enter customer Mobile:")
                 cursor.execute('EXEC AddCustomer ?,?',Name,Mobile)
                 cursor.commit()
+                print("Customer Added Successfully.")
             else:
                 display()   
     if choice == 2:
@@ -129,6 +130,7 @@ def display():
             print(out)
         else:
             print("No Product Out Of Stock")
+            display()
     
     if choice==3:
         orders()
