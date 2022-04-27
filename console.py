@@ -123,7 +123,7 @@ def display():
                 cursor.commit()
             else:
                 display()        
-    if choice==:3
+    if choice==3:
         orders()
     if choice == 4:
         print(customer())
