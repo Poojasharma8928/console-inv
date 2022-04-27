@@ -119,6 +119,7 @@ def display():
                 Mobile = input("Enter customer Mobile:")
                 cursor.execute('EXEC AddCustomer ?,?',Name,Mobile)
                 cursor.commit()
+                print("Customer Added Successfully.")
             else:
                 display()   
     if choice == 2:
