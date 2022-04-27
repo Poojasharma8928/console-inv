@@ -123,9 +123,9 @@ def display():
                 cursor.commit()
             else:
                 display()        
-    if choice==4:
+    if choice==:3
         orders()
-    if choice == 5:
+    if choice == 4:
         print(customer())
 
 
