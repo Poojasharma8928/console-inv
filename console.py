@@ -1,29 +1,10 @@
-import os,time
 from datetime import datetime
 os.system('cls')
 import pandas as pd
-import pyodbc
-# # # Connecting With Database
-conn = pyodbc.connect('Driver={SQL Server};'
-                      'SERVER=ZIL1161\MSSQLDEV2019;'
-                      'UID=SA;'
-                      'PWD=perficient@123;'
-                      'DATABASE=Inventory;'
-                      'Trusted_Connection=no;')
-animation = "|/-\\"
-idx = 0
-while True:
-    print("Connecting With Database..",animation[idx % len(animation)], end="\r")
-    idx += 1
-    time.sleep(0.1)
-    if idx==30:
-        break
-os.system('cls')
-print("Connected Successfully")
-
+import connection
 
 # # #Opening A Cursor
-cursor=conn.cursor()
+cursor=connection.conn.cursor()
 
 #Fetching All Products from inventory
 cursor.execute("SELECT * FROM Product")
