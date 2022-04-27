@@ -5,8 +5,6 @@ import connection
 os.system('cls')
 # # # Connecting With Database
 
-
-
 # # #Opening A Cursor
 cursor=connection.conn.cursor()
 
@@ -122,9 +120,16 @@ def display():
                 cursor.execute('EXEC AddCustomer ?,?',Name,Mobile)
                 cursor.commit()
             else:
-                display()        
+                display()   
+    if choice == 2:
+        cursor.execute('EXEC out_of_stock')
+        out= [list(i)for i in cursor.fetchall()]
+        out=pd.DataFrame(out, columns=['product id','Product name','Product category','Available quantity','Price','Reorder level'])
+        print(out)
+    
     if choice==3:
         orders()
+
     if choice == 4:
         print(customer())
 
