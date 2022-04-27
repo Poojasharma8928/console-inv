@@ -92,3 +92,12 @@ EXEC DisplayCustomerOrder 7219624662
 
 select * from Invoice
 select * from Product
+
+
+create procedure out_of_stock
+as
+BEGIN
+select * from Product
+where Available_quantity < Reorder_Level
+END
+exec out_of_stock 
