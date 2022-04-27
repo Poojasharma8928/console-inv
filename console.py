@@ -5,7 +5,7 @@ import pandas as pd
 import pyodbc
 # # # Connecting With Database
 conn = pyodbc.connect('Driver={SQL Server};'
-                      'Server=ZIL1180\MSSQLDEV2019;'
+                      'Server=ZIL1185\MSSQLDEV2019;'
                       'Database=Inventory;'
                       'Trusted_Connection=Yes;')
 animation = "|/-\\"
@@ -103,6 +103,7 @@ def customer():
     cursor.execute('SELECT * FROM customer')
     customer_list=[list(i) for i in cursor.fetchall()]
     customer_df=pd.DataFrame(customer_list,columns=['Customer_id','Customer Name','Mobile No'])
+    return customer_df
 customer()
 
 
@@ -137,5 +138,8 @@ def display():
                 display()        
     if choice==4:
         orders()
+    if choice == 5:
+        print(customer())
+
 
 display()
