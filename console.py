@@ -1,4 +1,5 @@
 import os,time
+from unicodedata import name
 os.system('cls')
 from datetime import datetime
 import pandas as pd
@@ -115,7 +116,16 @@ def purchase():
         purchaseid=cursor.fetchval()
         cursor.execute('exec PurchaseOrderDetails 1 ,2 , 5 , 500')
 
-
+def valid_name():
+    pat = re.compile(r"[A-Za-z' ']+")
+    # Prompts the user for input string
+    name = input("Enter the Name: ")
+    # Checks whether the whole string matches the re.pattern or not
+    if re.fullmatch(pat, name):
+        return name
+    else:
+        print(f"'{name}' is NOT a Valid Name!")
+        valid_name()
 
 
 def display():
@@ -133,7 +143,7 @@ def display():
             print("Customer Not Found")
             add_customer = input("Do You want add customer??? Y/N?")
             if add_customer=='y' or add_customer=='Y':
-                Name = input("Enter customer Name :")
+                Name =valid_name() 
                 Mobile = input("Enter customer Mobile:")
                 cursor.execute('EXEC AddCustomer ?,?',Name,Mobile)
                 cursor.commit()
@@ -162,14 +172,3 @@ display()
 
 # compiling the pattern for alphanumeric string
 
-def valid_name():
-    pat = re.compile(r"[A-Za-z' ']+")
-    # Prompts the user for input string
-    test = input("Enter the Name: ")
-    # Checks whether the whole string matches the re.pattern or not
-    if re.fullmatch(pat, test):
-        print(f"'{test}' is an Valid Name!")
-    else:
-        print(f"'{test}' is NOT a Valid Name!")
-        valid_name()
-valid_name()
