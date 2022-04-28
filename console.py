@@ -4,6 +4,7 @@ from datetime import datetime
 import pandas as pd
 import connection
 os.system('cls')
+import re
 # # # Connecting With Database
 
 # # #Opening A Cursor
@@ -113,10 +114,6 @@ def purchase():
         cursor.execute('SELECT MAX(Purchase_Id) From Purchase')
         purchaseid=cursor.fetchval()
         cursor.execute('exec PurchaseOrderDetails 1 ,2 , 5 , 500')
-
-    else:
-        print("Thank You!")
-        display()
 
 
 
