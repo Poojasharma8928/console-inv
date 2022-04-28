@@ -1,4 +1,5 @@
 import os,time
+os.system('cls')
 from datetime import datetime
 import pandas as pd
 import connection
@@ -22,7 +23,7 @@ inventory()
 def calculate(productid,quantity,products):
     for i in products:
         if i[0]==productid:
-            return i[1],i[4]
+            return i[1],i[4],i[4]*quantity
 
 def orders():
     cursor.execute('EXEC DisplayOrders')
@@ -50,14 +51,15 @@ def Customer_Invoice():
     orders=pd.DataFrame([list(i) for i in cursor.fetchall()],columns=['Invoice ID','Invoice Date','Invoice Amount'])
     print(orders)
 
-
-
-cart=[]
+def init_cart():
+    global cart
+    cart=[]
+init_cart()
 def sales(cart,id):
     productid = int(input("Please enter Product Id: "))
     quantity = int(input("Please enter Quantity: "))
     name_price=calculate(productid,quantity,inventory())
-    cart_item=(productid,name_price[0],quantity,name_price[1],name_price[1]*quantity)
+    cart_item=(productid,name_price[0],quantity,name_price[1],name_price[2])
     cart.append(list(cart_item))
     temp_cart=pd.DataFrame(cart,columns=['Product Id','Product Name','Quantity','Price','Total'])
     print(temp_cart)
@@ -80,7 +82,8 @@ def sales(cart,id):
             cursor.execute('EXEC InsertOrderDetail ?,?,?,?',invoiceid,i[0],i[2],i[4])
             cursor.commit()
         print("\t\t\t\t\ttotal :{}".format(total))
-        cursor.close()
+        init_cart()
+        display()
 
 
 def customer():
@@ -100,12 +103,30 @@ def check_customer():
          return i[0]
     return False
 
+purchase_cart=[]
+def purchase():
+        productid = input("Please enter Product Id you want to purchase: ")
+        quantity = input("Please enter No. of Quantity you want to purchase: ")
+        price=calculate(productid,quantity,products)
+        cursor.execute('exec PurchaseOrder ?,?',input("Supplier ID: "),price[2])
+        cursor.commit()
+        cursor.execute('SELECT MAX(Purchase_Id) From Purchase')
+        purchaseid=cursor.fetchval()
+        cursor.execute('exec PurchaseOrderDetails 1 ,2 , 5 , 500')
+
+    else:
+        print("Thank You!")
+        display()
+
+
+
 
 def display():
-    print("1. Sales")
-    print("2. Out of Stock")# if Quantity <=Reorder :
-    print("3. Orders")
-    print("4. Customers")
+    print("1. Sales\n")
+    print("2. Out of Stock\n")# if Quantity <=Reorder :
+    print("3. Orders\n")
+    print("4. Customers\n")
+    print("5. Purchase\n")
     choice = int(input("Please Enter Choice :"))
     if choice==1:
         id=check_customer()
@@ -129,15 +150,15 @@ def display():
             out=pd.DataFrame(out, columns=['product id','Product name','Product category','Available quantity','Price','Reorder level'])
             print(out)
         else:
-            print("No Product Out Of Stock")
+            os.system('cls')
+            print("\nNo Product Out Of Stock\n")
             display()
     
     if choice==3:
         orders()
 
     if choice == 4:
-        print(customer())
-
-
+        os.system('cls')
+        print(customer())       
 
 display()
