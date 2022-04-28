@@ -1,4 +1,6 @@
+from ast import Break
 import os,time
+from unicodedata import name
 os.system('cls')
 from datetime import datetime
 import pandas as pd
@@ -115,6 +117,19 @@ def purchase():
         purchaseid=cursor.fetchval()
         cursor.execute('exec PurchaseOrderDetails 1 ,2 , 5 , 500')
 
+def valid_name(name):
+    pat = re.compile(r"[A-Za-z' ']+")
+    # Prompts the user for input string
+    # Checks whether the whole string matches the re.pattern or not
+    if re.fullmatch(pat,name):
+        return True
+
+#Contact Number Validation
+def valid_mobile(mobile):
+    result=re.fullmatch(r'\d{10}',mobile)
+    if result:
+        return True      
+
 
 
 
@@ -131,10 +146,20 @@ def display():
             sales(cart,id)
         else:
             print("Customer Not Found")
-            add_customer = input("Do You want add customer??? Y/N?")
+            add_customer = input("Do You want add New customer??? Y/N?")
             if add_customer=='y' or add_customer=='Y':
-                Name = input("Enter customer Name :")
-                Mobile = input("Enter customer Mobile:")
+                while True:
+                    Name=input("new customer Name:")
+                    if valid_name(Name):
+                        break
+                    else:
+                        print("Invalid")    
+                while True:
+                    Mobile=input("new customer Mobile:")
+                    if valid_mobile(Mobile):
+                        break
+                    else:
+                        print("Invalid")    
                 cursor.execute('EXEC AddCustomer ?,?',Name,Mobile)
                 cursor.commit()
                 print("Customer Added Successfully.")
@@ -163,26 +188,4 @@ display()
 
 # compiling the pattern for alphanumeric string
 
-<<<<<<< HEAD
-def valid_name():
-    pat = re.compile(r"[A-Za-z' ']+")
-    # Prompts the user for input string
-    test = input("Enter the Name: ")
-    # Checks whether the whole string matches the re.pattern or not
-    if re.fullmatch(pat, test):
-        print(f"'{test}' is an Valid Name!")
-    else:
-        print(f"'{test}' is NOT a Valid Name!")
-        valid_name()
-=======
 
-#Contact Number Validation
-def valid_mobile():
-    mobile=input("M : ")
-    result=re.fullmatch(r'\d{10}',mobile)
-    if result:
-        print("Valid")
-    else:
-        print("Invalid")      
-valid_mobile()
->>>>>>> aa9182672421ecfbab3db12c7602e59429a20bdd
