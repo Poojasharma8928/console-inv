@@ -159,3 +159,17 @@ def display():
         print(customer())       
 
 display()
+
+# compiling the pattern for alphanumeric string
+
+def valid_name():
+    pat = re.compile(r"[A-Za-z' ']+")
+    # Prompts the user for input string
+    test = input("Enter the Name: ")
+    # Checks whether the whole string matches the re.pattern or not
+    if re.fullmatch(pat, test):
+        print(f"'{test}' is an Valid Name!")
+    else:
+        print(f"'{test}' is NOT a Valid Name!")
+        valid_name()
+valid_name()
