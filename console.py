@@ -163,6 +163,7 @@ display()
 
 # compiling the pattern for alphanumeric string
 
+<<<<<<< HEAD
 def valid_name():
     pat = re.compile(r"[A-Za-z' ']+")
     # Prompts the user for input string
@@ -173,3 +174,15 @@ def valid_name():
     else:
         print(f"'{test}' is NOT a Valid Name!")
         valid_name()
+=======
+
+#Contact Number Validation
+def valid_mobile():
+    mobile=input("M : ")
+    result=re.fullmatch(r'\d{10}',mobile)
+    if result:
+        print("Valid")
+    else:
+        print("Invalid")      
+valid_mobile()
+>>>>>>> aa9182672421ecfbab3db12c7602e59429a20bdd
