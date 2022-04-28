@@ -172,3 +172,13 @@ display()
 
 # compiling the pattern for alphanumeric string
 
+
+#Contact Number Validation
+def valid_mobile():
+    mobile=input("M : ")
+    result=re.fullmatch(r'\d{10}',mobile)
+    if result:
+        print("Valid")
+    else:
+        print("Invalid")      
+valid_mobile()
