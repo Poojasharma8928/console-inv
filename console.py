@@ -86,6 +86,11 @@ def sales(cart,id):
         init_cart()
         display()
 
+def addcustomer(Name,Mobile):
+    cursor.execute('EXEC AddCustomer ?,?',Name,Mobile)
+    cursor.commit()
+    print("Customer Added Successfully.")
+    display()
 
 def customer():
     global customer_list
@@ -98,9 +103,14 @@ customer()
 
 
 def check_customer():
-    mobileno = input("Please enter customer mobile no: ")
+    while True:
+        Mobile=input("new customer Mobile:")
+        if valid_mobile(Mobile):
+            break
+        else:
+            print("Invalid")
     for i in customer_list:
-        if i[2]==mobileno:
+        if i[2]==Mobile:
          return i[0]
     return False
 
@@ -143,28 +153,6 @@ def display():
         id=check_customer()
         if id:
             sales(cart,id)
-        else:
-            print("Customer Not Found")
-            add_customer = input("Do You want add New customer??? Y/N?")
-            if add_customer=='y' or add_customer=='Y':
-                while True:
-                    Name=input("new customer Name:")
-                    if valid_name(Name):
-                        break
-                    else:
-                        print("Invalid")    
-                while True:
-                    Mobile=input("new customer Mobile:")
-                    if valid_mobile(Mobile):
-                        break
-                    else:
-                        print("Invalid")    
-                cursor.execute('EXEC AddCustomer ?,?',Name,Mobile)
-                cursor.commit()
-                print("Customer Added Successfully.")
-                display()
-            else:
-                display()  
     if choice == 2:
         cursor.execute('EXEC out_of_stock')
         out= [list(i)for i in cursor.fetchall()]
