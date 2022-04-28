@@ -1,6 +1,4 @@
-from ast import Break
 import os,time
-from unicodedata import name
 os.system('cls')
 from datetime import datetime
 import pandas as pd
@@ -107,15 +105,16 @@ def check_customer():
     return False
 
 purchase_cart=[]
+
 def purchase():
         productid = input("Please enter Product Id you want to purchase: ")
         quantity = input("Please enter No. of Quantity you want to purchase: ")
-        price=calculate(productid,quantity,products)
+        price=calculate(productid,quantity,inventory())
         cursor.execute('exec PurchaseOrder ?,?',input("Supplier ID: "),price[2])
         cursor.commit()
         cursor.execute('SELECT MAX(Purchase_Id) From Purchase')
         purchaseid=cursor.fetchval()
-        cursor.execute('exec PurchaseOrderDetails 1 ,2 , 5 , 500')
+        cursor.execute('exec PurchaseOrderDetails  ?,?,?,?',purchaseid,productid,quantity,price)
 
 def valid_name(name):
     pat = re.compile(r"[A-Za-z' ']+")
@@ -183,7 +182,9 @@ def display():
     if choice == 4:
         os.system('cls')
         print(customer())       
-
+    if choice==5:
+        os.system('cls')
+        purchase()
 display()
 
 # compiling the pattern for alphanumeric string
