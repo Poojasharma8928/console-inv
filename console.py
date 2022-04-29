@@ -16,7 +16,8 @@ products=[list(i) for i in cursor.fetchall()]
 def inventory():
     cursor.execute("SELECT * FROM Product")
     products=[list(i) for i in cursor.fetchall()]
-    df=pd.DataFrame(products,columns=["Product_Id","Product_Name","Category","Available Quantity","Price","Reorder Level"])
+    global df_inventory
+    df_inventory=pd.DataFrame(products,columns=["Product_Id","Product_Name","Category","Available Quantity","Price","Reorder Level"])
     # print(df)
     return products
 inventory()    
@@ -58,7 +59,15 @@ def init_cart():
 init_cart()
 def sales(cart,id):
     productid = int(input("Please enter Product Id: "))
-    quantity = int(input("Please enter Quantity: "))
+    for i in inventory():
+        if i[0]==productid:
+            while True:
+                quantity = int(input("Please enter Quantity: "))
+                if quantity<int(i[3]):
+                    break
+                else:
+                    print("Not Enough Stock")
+        
     name_price=calculate(productid,quantity,inventory())
     cart_item=(productid,name_price[0],quantity,name_price[1],name_price[2])
     cart.append(list(cart_item))
@@ -104,7 +113,7 @@ customer()
 
 def check_customer():
     while True:
-        Mobile=input("new customer Mobile:")
+        Mobile=input("Customer Mobile NO.:")
         if valid_mobile(Mobile):
             break
         else:
@@ -114,17 +123,31 @@ def check_customer():
          return i[0]
     return False
 
-purchase_cart=[]
 
-def purchase():
-        productid = input("Please enter Product Id you want to purchase: ")
-        quantity = input("Please enter No. of Quantity you want to purchase: ")
-        price=calculate(productid,quantity,inventory())
-        cursor.execute('exec PurchaseOrder ?,?',input("Supplier ID: "),price[2])
-        cursor.commit()
-        cursor.execute('SELECT MAX(Purchase_Id) From Purchase')
-        purchaseid=cursor.fetchval()
-        cursor.execute('exec PurchaseOrderDetails  ?,?,?,?',purchaseid,productid,quantity,price)
+def purchase(purchase_cart):
+        productid = int(input("Please enter Product Id you want to purchase: "))
+        quantity = int(input("Please enter No. of Quantity you want to purchase: "))
+        name_price=calculate(productid,quantity,inventory())
+        purchase_item=(productid,name_price[0],quantity,name_price[1],name_price[2])
+        purchase_cart.append(list(purchase_item))
+        temp_purchase_cart=pd.DataFrame(purchase_cart,columns=['Product Id','Product Name','Quantity','Price','Total'])
+        print(temp_purchase_cart)
+        total=[i[4] for i in purchase_cart ]
+        total=sum(total)
+        print("\t\t\t\t\ttotal :{}".format(total))
+        choice=input("Do You want add more??? Y/N?")
+        if choice=='y' or choice=='Y':
+            purchase(purchase_cart)
+        else:
+            cursor.execute('exec PurchaseOrder ?,?',input("Supplier ID: "),total)
+            cursor.commit()
+            cursor.execute('SELECT MAX(Purchase_Id) From Purchase')
+            purchaseid=cursor.fetchval()
+            for i in purchase_cart:
+                cursor.execute('exec PurchaseOrderDetails  ?,?,?,?',purchaseid,i[0],i[2],i[4])
+                cursor.commit()
+            print("\t\t\t\t\ttotal :{}".format(total))
+            display()
 
 def valid_name(name):
     pat = re.compile(r"[A-Za-z' ']+")
@@ -143,19 +166,28 @@ def valid_mobile(mobile):
 
 
 def display():
+    # os.system('color 2')
+    cursor.execute('EXEC out_of_stock')
+    out= [list(i)for i in cursor.fetchall()]
     print("1. Sales\n")
-    print("2. Out of Stock\n")# if Quantity <=Reorder :
+    if out:
+        print("2. Out of Stock [*]\n")# if Quantity <=Reorder :
+    else:
+        print("2. Out of Stock\n")# if Quantity <=Reorder :
     print("3. Orders\n")
     print("4. Customers\n")
     print("5. Purchase\n")
+    print("6. Inventory\n")
     choice = int(input("Please Enter Choice :"))
     if choice==1:
         id=check_customer()
         if id:
             sales(cart,id)
+        else:
+            print("Customer Not Found !\n")
+            addcustomer(input("Enter Customer Name:"),int(input("Enter Mobile No.:")))
+
     if choice == 2:
-        cursor.execute('EXEC out_of_stock')
-        out= [list(i)for i in cursor.fetchall()]
         if out:
             out=pd.DataFrame(out, columns=['product id','Product name','Product category','Available quantity','Price','Reorder level'])
             print(out)
@@ -166,13 +198,21 @@ def display():
     
     if choice==3:
         orders()
+        display()
+    
+    if choice==6:
+        print(df_inventory)
+        display()
 
     if choice == 4:
         os.system('cls')
         print(customer())       
+        display()
     if choice==5:
         os.system('cls')
-        purchase()
+        purchase_cart=[]
+        purchase(purchase_cart)
+        display()
 display()
 
 # compiling the pattern for alphanumeric string
