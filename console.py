@@ -1,6 +1,5 @@
 import os,time
 os.system('cls')
-from datetime import datetime
 import pandas as pd
 import connection
 os.system('cls')
@@ -39,7 +38,7 @@ def orders():
         InvoiceDetail()
     if choice==2:
         Customer_Invoice()
-        if int(input("Press 1 for Specific Invoice Details"))==1:
+        if int(input("Press 1 for Specific Invoice Details: "))==1:
             InvoiceDetail()
 
 
@@ -75,7 +74,7 @@ def sales(cart,id):
     print(temp_cart)
     total=[i[4] for i in cart ]
     total=sum(total)
-    print("Total = {}".format(total))
+    print("\t\t\t\t\tTotal :{}".format(total))
     choice=input("Do You want add more??? Y/N?")
     if choice=='y' or choice=='Y':
         sales(cart,id)
@@ -206,8 +205,9 @@ def display():
 
     if choice == 4:
         os.system('cls')
-        print(customer())       
-        display()
+        print(customer())
+        Customer_Invoice()
+        display()       
     if choice==5:
         os.system('cls')
         purchase_cart=[]
