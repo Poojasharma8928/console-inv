@@ -46,9 +46,10 @@ def InvoiceDetail():
     cursor.execute('EXEC DisplayInvoiceOrder ?',int(input("Please Enter Invoice ID:")))   
     orders=pd.DataFrame([list(i) for i in cursor.fetchall()],columns=['Invoice Date','Product Name','Quantity','Total Amount'])
     print(orders)
+    
 
 def Customer_Invoice():
-    cursor.execute('EXEC DisplayCustomerOrder ?',int(input("Please Enter Customer Mobile No:")))   
+    cursor.execute('EXEC DisplayCustomerOrder ?',int(input("For Invoice Please Enter Customer Mobile No:")))   
     orders=pd.DataFrame([list(i) for i in cursor.fetchall()],columns=['Invoice ID','Invoice Date','Invoice Amount'])
     print(orders)
 
@@ -188,8 +189,12 @@ def display():
 
     if choice == 2:
         if out:
+            os.system('cls')
+            print("\t\t\t\tOut of Stock Products")
             out=pd.DataFrame(out, columns=['product id','Product name','Product category','Available quantity','Price','Reorder level'])
             print(out)
+            print("\n")
+            display()
         else:
             os.system('cls')
             print("\nNo Product Out Of Stock\n")
@@ -200,6 +205,8 @@ def display():
         display()
     
     if choice==6:
+        os.system('cls')
+        inventory()
         print(df_inventory)
         display()
 
@@ -214,7 +221,3 @@ def display():
         purchase(purchase_cart)
         display()
 display()
-
-# compiling the pattern for alphanumeric string
-
-
