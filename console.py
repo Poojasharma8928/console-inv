@@ -12,6 +12,8 @@ cursor=connection.conn.cursor()
 #Fetching All Products from inventory
 cursor.execute("SELECT * FROM Product")
 products=[list(i) for i in cursor.fetchall()]
+
+
 def inventory():
     cursor.execute("SELECT * FROM Product")
     products=[list(i) for i in cursor.fetchall()]
@@ -82,7 +84,16 @@ def sales(cart,id):
     else:
         cart_df=pd.DataFrame(cart,columns=['Product Id','Product Name','Quantity','Price','Total'])
         print(cart_df)
-        cursor.execute('EXEC InsertOrder ?,?',id,total)
+        print("1. Cash \n2. Card \n3.UPI")
+        mode = int(input("Please Select Mode of Transaction: "))
+        if mode==1:
+            mode='Cash'
+        elif mode==2:
+            mode='Card'
+        elif mode==3:
+            mode='UPI   '
+
+        cursor.execute('EXEC InsertOrder ?,?,?',id,total,mode)
         cursor.commit()
         cursor.execute('SELECT max(invoice_id) from Invoice')
         invoiceid=cursor.fetchval()
@@ -123,6 +134,10 @@ def check_customer():
          return i[0]
     return False
 
+def calculate_purchase(productid,quantity):
+    cursor.execute('EXEC CalculatePurchase 5,3')
+    
+
 
 def purchase(purchase_cart):
         productid = int(input("Please enter Product Id you want to purchase: "))
@@ -139,7 +154,7 @@ def purchase(purchase_cart):
         if choice=='y' or choice=='Y':
             purchase(purchase_cart)
         else:
-            cursor.execute('exec PurchaseOrder ?,?',input("Supplier ID: "),total)
+            cursor.execute('exec PurchaseOrder ?',total)
             cursor.commit()
             cursor.execute('SELECT MAX(Purchase_Id) From Purchase')
             purchaseid=cursor.fetchval()
