@@ -75,8 +75,18 @@ CREATE TABLE [Customer] (
 )
 GO
 
+Create table Supplier( Supplier_id int  , 
+Product_id int , Price int)
 
 
+
+Insert into Supplier([Supplier_id] , [Product_id] , [Price]) VALUES( 1 , 1 , 18000),
+(1 , 2 , 53000), (1 , 3 , 78000),
+(1 , 4 , 43000) , (2 , 5 , 300) , (2 ,6, 800) , (2 , 7 , 1800) , (2 , 8 , 600), 
+(3 , 9 , 30) , (3 , 10 , 15) , (3 , 11 , 450) , (3 , 12 , 120) , (3 , 13 , 40) , (4 , 14 , 40) , (4, 15 , 50) , (4 , 16 , 80) , (4 , 17 , 100),
+(5 , 18 , 70) , (5 , 19 , 90) , (5 , 20 , 90)
+
+SELECT * FROM Supplier
 
 Insert into Customer( [customer_name] , [Customer_MobileNo])
 values(  'Pooja' , 9359909579),
