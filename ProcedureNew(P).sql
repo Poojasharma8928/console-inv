@@ -1,16 +1,16 @@
 -- Insertorder procedure gor invoice
 
-create PROCEDURE InsertOrder
-@CustomerID int,@InvoiceAmount int
+ALTER PROCEDURE InsertOrder
+@CustomerID int,@InvoiceAmount int , @Mode_of_transaction char(15)
 as
 begin
-INSERT INTO Invoice(Customer_id,Invoice_Date,Invoice_amount) values(@CustomerID,GETDATE(),@InvoiceAmount)
+INSERT INTO Invoice(Customer_id,Invoice_Date,Invoice_amount , Mode_of_transaction) values(@CustomerID,GETDATE(),@InvoiceAmount , @Mode_of_transaction)
 end
 begin
 select SCOPE_IDENTITY() ;
 end
 
-exec InsertOrder 2,5000
+exec InsertOrder 2,5000 , "Cash"
 
 exec InsertOrderDetail 2,5,6,64000
 
