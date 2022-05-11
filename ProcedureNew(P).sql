@@ -1,5 +1,6 @@
 -- Insertorder procedure gor invoice
 
+
 ALTER PROCEDURE InsertOrder
 @CustomerID int,@InvoiceAmount int , @Mode_of_transaction char(15)
 as
@@ -93,11 +94,11 @@ exec out_of_stock
 
 -- Procedure for PurchaseOrder
 
-create PROCEDURE PurchaseOrder
-@Supplier_id int,@Purchase_Amount int
+Alter PROCEDURE PurchaseOrder
+@Purchase_Amount int
 as
 begin
-INSERT INTO Purchase(Supplier_id,purchase_date,Purchase_Amount) values(@Supplier_id,GETDATE(),@Purchase_Amount)
+INSERT INTO Purchase(purchase_date,Purchase_Amount) values(GETDATE(),@Purchase_Amount)
 end
 begin
 select SCOPE_IDENTITY() ;
@@ -122,3 +123,21 @@ END
 
 exec PurchaseOrderDetails 1 ,2 , 5 , 500
 
+
+
+
+select * from dbo.Supplier
+
+
+CREATE PROCEDURE CalculatePurchase 
+@Product_Id int, @Purchase_Quantity int
+AS
+BEGIN
+
+select P.Product_id,Product_name,S.Price,@Purchase_Quantity*S.Price as Total from Product P
+INNER JOIN Supplier S ON P.Product_id=S.Product_id
+WHERE P.Product_id=@Product_Id
+
+END
+
+EXEC CalculatePurchase 5,6

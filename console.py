@@ -135,15 +135,16 @@ def check_customer():
     return False
 
 def calculate_purchase(productid,quantity):
-    cursor.execute('EXEC CalculatePurchase 5,3')
-    
+    cursor.execute('EXEC CalculatePurchase ?,?',productid,quantity)
+    return cursor.fetchone()
+
 
 
 def purchase(purchase_cart):
         productid = int(input("Please enter Product Id you want to purchase: "))
         quantity = int(input("Please enter No. of Quantity you want to purchase: "))
-        name_price=calculate(productid,quantity,inventory())
-        purchase_item=(productid,name_price[0],quantity,name_price[1],name_price[2])
+        name_price=calculate_purchase(productid,quantity)
+        purchase_item=(productid,name_price[1],quantity,name_price[2],name_price[3])
         purchase_cart.append(list(purchase_item))
         temp_purchase_cart=pd.DataFrame(purchase_cart,columns=['Product Id','Product Name','Quantity','Price','Total'])
         print(temp_purchase_cart)
