@@ -55,6 +55,9 @@ CREATE TABLE [Purchase] (
 )
 GO
 
+alter table Invoice 
+add  Mode_of_transaction Char(15)
+
 SELECT * FROM Purchase
 
 CREATE TABLE Purchase_Details (
