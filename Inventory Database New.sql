@@ -44,6 +44,8 @@ CREATE TABLE [Invoice] (
 )
 GO
 
+alter table Invoice 
+add  Mode_of_transaction Char(15)
 
 SELECT * FROM Invoice
 
@@ -55,8 +57,11 @@ CREATE TABLE [Purchase] (
 )
 GO
 
-alter table Invoice 
-add  Mode_of_transaction Char(15)
+ALTER TABLE Purchase 
+Drop column Supplier_id
+
+
+
 
 SELECT * FROM Purchase
 
@@ -68,6 +73,9 @@ CREATE TABLE Purchase_Details (
 [price] int , 
 [Expiry_Date] Date
 )
+
+alter table Purchase_details
+add Supplier_id int 
 
 SELECT * FROM Purchase_Details
 
