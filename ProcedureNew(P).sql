@@ -82,7 +82,7 @@ EXEC DisplayCustomerOrder 7219624662
 
 
 -- Outofstock procedure
-create procedure out_of_stock
+alter procedure out_of_stock
 as
 BEGIN
 select * from Product
@@ -104,7 +104,7 @@ begin
 select SCOPE_IDENTITY() ;
 end
 
-exec PurchaseOrder 2 , 100
+exec PurchaseOrder 2 
 
 select * from Invoice_details
 
@@ -113,12 +113,16 @@ select * from Purchase
 
 
 --Procedure for PurchaseOrderdetais
-CREATE PROCEDURE PurchaseOrderDetails
+alter PROCEDURE PurchaseOrderDetails
 @Purchase_id int,@ProductId int,@Quantity int,@Price int 
 AS
 BEGIN
 INSERT INTO Purchase_Details(Purchase_id , Product_id ,Quantity,price ) 
 VALUES (@Purchase_id,@ProductId,@Quantity,@Price )
+
+UPDATE Product SET Available_quantity=Available_quantity+@Quantity where Product_id=@ProductId
+
+
 END
 
 exec PurchaseOrderDetails 1 ,2 , 5 , 500
