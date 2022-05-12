@@ -119,10 +119,12 @@ AS
 BEGIN
 INSERT INTO Purchase_Details(Purchase_id , Product_id ,Quantity,price ) 
 VALUES (@Purchase_id,@ProductId,@Quantity,@Price )
+
 END
 
 exec PurchaseOrderDetails 1 ,2 , 5 , 500
 
+select INFORMATION_SCHEMA.COLUMNS from 
 
 
 
@@ -141,3 +143,6 @@ WHERE P.Product_id=@Product_Id
 END
 
 EXEC CalculatePurchase 5,6
+
+select * from Purchase
+select * from Purchase_Details
