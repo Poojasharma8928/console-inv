@@ -1,4 +1,5 @@
 import os,time
+import QRConnection
 os.system('cls')
 import pandas as pd
 import connection
@@ -84,14 +85,13 @@ def sales(cart,id):
     else:
         cart_df=pd.DataFrame(cart,columns=['Product Id','Product Name','Quantity','Price','Total'])
         print(cart_df)
-        print("1. Cash \n2. Card \n3.UPI")
+        print("1. Cash \n2.UPI")
         mode = int(input("Please Select Mode of Transaction: "))
         if mode==1:
             mode='Cash'
         elif mode==2:
-            mode='Card'
-        elif mode==3:
-            mode='UPI   '
+            mode='UPI'
+            QRConnection.QR(total)
 
         cursor.execute('EXEC InsertOrder ?,?,?',id,total,mode)
         cursor.commit()
