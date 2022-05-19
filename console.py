@@ -62,12 +62,11 @@ def removecart(cart):
             cart.remove(i)
             cart_df=pd.DataFrame(cart,columns=['Product Id','Product Name','Quantity','Price','Total'])
             print(cart_df)
-            choice=input("Do You want ADD/REMOVE??? A/R? OR Presss Enter To continue")
-            if choice=='a' or choice=='A':
+            choice=int(input("1.\tADD\n2.\tREMOVE\n3.\tCheckout \t"))
+            if choice==1:
                 sales(cart,id)
-            if choice=='r' or choice=='R':
+            if choice==2:
                 removecart(cart)
-
     
 def init_cart():
     global cart
@@ -92,12 +91,12 @@ def sales(cart,id):
     total=[i[4] for i in cart ]
     total=sum(total)
     print("\t\t\t\t\tTotal :{}".format(total))
-    choice=input("Do You want ADD/REMOVE??? A/R? OR Presss Enter To continue")
-    if choice=='a' or choice=='A':
+    choice=int(input("1.\tADD\n2.\tREMOVE\n3.\tCheckout \t"))
+    if choice==1:
         sales(cart,id)
-    if choice=='r' or choice=='R':
+    if choice==2:
         removecart(cart)
-
+        total=[i[4] for i in cart]
 
     else:
         cart_df=pd.DataFrame(cart,columns=['Product Id','Product Name','Quantity','Price','Total'])
