@@ -23,7 +23,6 @@ def inventory():
     # print(df)
     return products
 inventory()    
-#sdfgh
 def calculate(productid,quantity,products):
     for i in products:
         if i[0]==productid:
@@ -56,6 +55,20 @@ def Customer_Invoice():
     orders=pd.DataFrame([list(i) for i in cursor.fetchall()],columns=['Invoice ID','Invoice Date','Invoice Amount'])
     print(orders)
 
+def removecart(cart):
+    productid=int(input("Please Enter Product Id: "))
+    for i in cart:
+        if (i[0]==productid):
+            cart.remove(i)
+            cart_df=pd.DataFrame(cart,columns=['Product Id','Product Name','Quantity','Price','Total'])
+            print(cart_df)
+            choice=input("Do You want ADD/REMOVE??? A/R? OR Presss Enter To continue")
+            if choice=='a' or choice=='A':
+                sales(cart,id)
+            if choice=='r' or choice=='R':
+                removecart(cart)
+
+    
 def init_cart():
     global cart
     cart=[]
@@ -79,9 +92,13 @@ def sales(cart,id):
     total=[i[4] for i in cart ]
     total=sum(total)
     print("\t\t\t\t\tTotal :{}".format(total))
-    choice=input("Do You want add more??? Y/N?")
-    if choice=='y' or choice=='Y':
+    choice=input("Do You want ADD/REMOVE??? A/R? OR Presss Enter To continue")
+    if choice=='a' or choice=='A':
         sales(cart,id)
+    if choice=='r' or choice=='R':
+        removecart(cart)
+
+
     else:
         cart_df=pd.DataFrame(cart,columns=['Product Id','Product Name','Quantity','Price','Total'])
         print(cart_df)
@@ -180,7 +197,6 @@ def valid_mobile(mobile):
 
 
 
-
 def display():
     # os.system('color 2')
     cursor.execute('EXEC out_of_stock')
@@ -189,7 +205,7 @@ def display():
     if out:
         print("2. Out of Stock [*]\n")# if Quantity <=Reorder :
     else:
-        print("2. Out of Stock\n")# if Quantity <=Reorder :
+        print("2. Out of Stock\n")# if Quantity >=Reorder :
     print("3. Orders\n")
     print("4. Customers\n")
     print("5. Purchase\n")
